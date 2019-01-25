@@ -37,6 +37,7 @@ namespace Movies.Client
                     "An exception happened while running the integration service.");
             }
             
+            Console.WriteLine("Application ran successfully.");
             Console.ReadKey();
         }
 
@@ -53,7 +54,7 @@ namespace Movies.Client
             // scoped lifetime
 
             // For the CRUD demos
-            serviceCollection.AddScoped<IIntegrationService, CRUDService>();
+            serviceCollection.AddScoped<IIntegrationService, CrudService>();
 
             // For the partial update demos
             // serviceCollection.AddScoped<IIntegrationService, PartialUpdateService>();
