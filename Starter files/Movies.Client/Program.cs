@@ -54,7 +54,7 @@ namespace Movies.Client
             // scoped lifetime
 
             // For the CRUD demos
-            serviceCollection.AddScoped<IIntegrationService, CrudService>();
+            serviceCollection.AddScoped<IIntegrationService, CRUDService>();
 
             // For the partial update demos
             // serviceCollection.AddScoped<IIntegrationService, PartialUpdateService>();
