@@ -102,7 +102,7 @@ namespace Movies.API.Controllers
 
             // call into UpdateMovie even though in our implementation 
             // this doesn't contain code - doing this ensures the code stays
-            // reliable when other repository implemenations (eg: a mock 
+            // reliable when other repository implementations (eg: a mock 
             // repository) are used.
             _moviesRepository.UpdateMovie(movieEntity);
 
@@ -137,7 +137,7 @@ namespace Movies.API.Controllers
 
             // call into UpdateMovie even though in our implementation 
             // this doesn't contain code - doing this ensures the code stays
-            // reliable when other repository implemenations (eg: a mock 
+            // reliable when other repository implementations (eg: a mock 
             // repository) are used.
             _moviesRepository.UpdateMovie(movieEntity);
 
@@ -147,7 +147,7 @@ namespace Movies.API.Controllers
             return Ok(_mapper.Map<Models.Movie>(movieEntity));
         }
 
-        [HttpDelete("{movieid}")]
+        [HttpDelete("{movieId}")]
         public async Task<IActionResult> DeleteMovie(Guid movieId)
         {
             var movieEntity = await _moviesRepository.GetMovieAsync(movieId);

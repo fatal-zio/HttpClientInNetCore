@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Movies.Client.Services;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Movies.Client

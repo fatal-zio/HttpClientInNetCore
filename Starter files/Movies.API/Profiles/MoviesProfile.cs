@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
 
-namespace Movies.API
+namespace Movies.API.Profiles
 {
     /// <summary>
     /// AutoMapper profile for working with Movie objects
