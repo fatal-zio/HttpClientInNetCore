@@ -20,13 +20,16 @@ namespace Movies.Client.Services
             _httpClient.BaseAddress = new Uri("http://localhost:57863");
             _httpClient.Timeout = new TimeSpan(0, 0, 30);
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            //_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml", 0.9));
         }
 
         public async Task Run()
         {
-            await GetResource();
+            //await GetResource();
+            //await GetResourceThroughHttpRequestMessage();
+
+            await CreateResource();
         }
 
         public async Task<IEnumerable<Movie>> GetResource()
@@ -50,6 +53,44 @@ namespace Movies.Client.Services
             }
 
             return movies;
+        }
+
+        public async Task<IEnumerable<Movie>> GetResourceThroughHttpRequestMessage()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/movies");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<Movie>>(content);
+        }
+
+        public async Task CreateResource()
+        {
+            var movieToCreate = new MovieForCreation
+            {
+                Title = "Reservoir Dogs",
+                Description = "After a simple jewelry heist goes terribly wrong, the surviving criminals begin to suspect that" + 
+                              " one of them is a police informant.",
+                DirectorId = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
+                ReleaseDate = new DateTimeOffset(new DateTime(1992, 9, 2)),
+                Genre = "Crime, Drama"
+            };
+
+            var serializedMovieToCreate = JsonConvert.SerializeObject(movieToCreate);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/movies");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            request.Content = new StringContent(serializedMovieToCreate);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+            var createdMovie = JsonConvert.DeserializeObject<Movie>(content);
         }
     }
 }
